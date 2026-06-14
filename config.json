@@ -1,7 +1,9 @@
 {
   "lang": "en",
   "mode": "tamagotchi",
-  "widgets": ["context"],
+  "widgets": [
+    "context"
+  ],
   "separator": " │ ",
   "contextWindow": null,
   "petName": "claudegochi",
