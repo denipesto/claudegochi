@@ -1,0 +1,16 @@
+{
+  "name": "cc-statusline",
+  "version": "0.1.0",
+  "description": "Useful Claude Code status line + spinner verbs (the anti-Kickbacks)",
+  "type": "module",
+  "bin": {
+    "cc-statusline": "src/statusline.mjs"
+  },
+  "scripts": {
+    "setup": "node bin/install.mjs",
+    "remove": "node bin/install.mjs --uninstall",
+    "demo": "node test/demo.mjs",
+    "test": "node src/statusline.mjs < test/sample-input.json"
+  },
+  "license": "MIT"
+}

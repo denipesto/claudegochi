@@ -1,0 +1,8 @@
+{
+  "mode": "tamagotchi",
+  "widgets": ["context"],
+  "separator": " │ ",
+  "contextWindow": null,
+  "petName": "claudegochi",
+  "petStyle": "sprite"
+}
