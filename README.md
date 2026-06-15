@@ -132,6 +132,7 @@ In `"mode": "normal"` the `widgets` list is rendered in order, joined by `separa
 | `context` | context bar + `%` + tokens left |
 | `quote` | a short craft/building quote of the day |
 | `vocab` | meeting/standup English — word + IPA + RU (~1200 phrases in `src/data/vocab.json`); rotation set by `vocabEvery` |
+| `limits` | Claude.ai (Pro/Max) usage limits — 5-hour + weekly dot-meters with reset time (auto-hidden on API-key usage) |
 | `tamagotchi` | the pet (also the whole of `tamagotchi` mode) |
 
 ```json

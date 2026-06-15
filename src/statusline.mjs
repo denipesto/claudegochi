@@ -10,6 +10,7 @@ import context from "./widgets/context.mjs";
 import tamagotchi from "./widgets/tamagotchi.mjs";
 import quote from "./widgets/quote.mjs";
 import vocab from "./widgets/vocab.mjs";
+import limits from "./widgets/limits.mjs";
 
 // widget name -> module. Add new widgets here as they land.
 const REGISTRY = {
@@ -17,6 +18,7 @@ const REGISTRY = {
   tamagotchi,
   quote,
   vocab,
+  limits,
 };
 
 async function readStdin() {
