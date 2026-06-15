@@ -26,10 +26,6 @@ export const defaultConfig = {
   petReactGit: true,
   // ~1fps blink / sleepy animation (needs refreshInterval to tick while idle)
   petAnimate: true,
-  // inspiring line (goal / quote / progress / cheer) when the pet is in a good mood
-  petInspire: true,
-  // your goal of the day, shown as the north-star; set with `ccg goal ...`
-  goal: null,
   // seconds between timer refreshes of the status line (installer writes this
   // into settings.json so the animation keeps ticking when the session is idle)
   refreshInterval: 2,

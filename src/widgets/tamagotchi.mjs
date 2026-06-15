@@ -9,7 +9,6 @@
 import { gray, bold, dim, c256, THEMES, gradientBar, fmtTokens } from "../colors.mjs";
 import { contextState } from "../tokens.mjs";
 import { tick } from "../pet.mjs";
-import { inspireLine } from "../inspire.mjs";
 
 const toneOf = (r) => (r >= 0.85 ? "danger" : r >= 0.6 ? "warn" : "good");
 
@@ -94,13 +93,10 @@ export default {
     if (animate && frame % 5 === 0 && !["x_x", "★_★"].includes(eyes)) eyes = "-_-";
     const drowsy = m.key === "tired" || m.key === "sleepy";
 
-    // status phrase: flash reactions > inspiring line (when in a good mood) > mood
-    const isFlash = ["fed", "commit", "levelup", "newday"].includes(m.key);
+    // status phrase (+ flash xp/level, + cycling z when drowsy)
     let say;
     if (m.key === "fed" || m.key === "commit") say = tr(m.key, { xp: pet.gain });
     else if (m.key === "levelup") say = tr("levelup", { lvl: pet.level });
-    else if (!isFlash && m.tone === "good" && cfg.petInspire !== false)
-      say = inspireLine(cfg, data, pet, now) || tr(m.key);
     else say = tr(m.key);
     if (animate && drowsy) say += " " + ["z", "Z", "ᶻ"][frame % 3];
 

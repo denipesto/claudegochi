@@ -94,7 +94,7 @@ Re-read on every render, no restart needed.
 | Field | Values | What it does |
 |---|---|---|
 | `mode` | `"normal"` \| `"tamagotchi"` | which mode to render |
-| `widgets` | `["context", ...]` | which widgets and order (normal mode) |
+| `widgets` | `["context", ...]` | which widgets and order (normal mode) — see below |
 | `petStyle` | `"sprite"` \| `"compact"` | cat as 3 lines / 1 line |
 | `petName` | string | pet name |
 | `petTheme` | `"warm"` \| `"cool"` \| `"mono"` | color palette (bar + mood) |
@@ -117,6 +117,24 @@ all projects):
 - **Reactions** — feeding it with `/compact` (a context drop), landing commits, and
   daily streaks all grant XP and a short happy reaction.
 - **Animation** — blinks and dozes at ~1fps (kept ticking by `refreshInterval`).
+
+### Widgets (normal mode)
+
+In `"mode": "normal"` the `widgets` list is rendered in order, joined by `separator`:
+
+| widget | shows |
+|---|---|
+| `context` | context bar + `%` + tokens left |
+| `quote` | a short craft/building quote of the day |
+| `tamagotchi` | the pet (also the whole of `tamagotchi` mode) |
+
+```json
+{ "mode": "normal", "widgets": ["context", "quote"] }
+```
+→ `ctx ▓▓▓░░ 57% · 426k left │ ✦ "Slow is smooth, smooth is fast."`
+
+Each widget is a small module in `src/widgets/` returning a string (or `null` to
+hide) — easy to add your own.
 
 ## Languages
 

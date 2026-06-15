@@ -25,7 +25,6 @@ const BOOL = (v) => (["true", "false", "on", "off", "1", "0"].includes(String(v)
 const STR = (v) => ({ value: String(v) });
 const NUMORNULL = (v) => (v === "null" || v === "auto" ? { value: null } : Number.isFinite(+v) ? { value: +v } : { error: "expected a number or 'auto'" });
 const INT1 = (v) => (Number.isInteger(+v) && +v >= 1 ? { value: +v } : { error: "expected an integer ≥ 1" });
-const GOAL = (v) => (["none", "-", "off", "clear", ""].includes(String(v).toLowerCase().trim()) ? { value: null } : { value: String(v) });
 
 function detectLocales() {
   try { return fs.readdirSync(path.join(root, "locales")).filter((f) => f.endsWith(".json")).map((f) => f.replace(/\.json$/, "")); }
@@ -42,8 +41,6 @@ const KEYS = {
   lang: LANGS.length ? ENUM(...LANGS) : STR,
   petReactGit: BOOL,
   petAnimate: BOOL,
-  petInspire: BOOL,
-  goal: GOAL,
   contextWindow: NUMORNULL,
   refreshInterval: INT1,
 };
@@ -56,13 +53,11 @@ const OPTS = {
   lang: LANGS.length ? LANGS : null,
   petReactGit: [true, false],
   petAnimate: [true, false],
-  petInspire: [true, false],
   petName: null,
-  goal: null,
   contextWindow: null,
   refreshInterval: null,
 };
-const ORDER = ["mode", "petTheme", "petStyle", "petName", "petNameProject", "goal", "petInspire", "lang", "petReactGit", "petAnimate", "contextWindow", "refreshInterval"];
+const ORDER = ["mode", "petTheme", "petStyle", "petName", "petNameProject", "lang", "petReactGit", "petAnimate", "contextWindow", "refreshInterval"];
 
 function load() {
   try { return JSON.parse(fs.readFileSync(configPath, "utf8").replace(/^﻿/, "")); }
