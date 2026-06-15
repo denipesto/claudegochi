@@ -65,7 +65,7 @@ export function gradientBar(fill, width = 10, palette = THEMES.warm.grad) {
   for (let i = 0; i < width; i++) {
     const col = palette[Math.min(palette.length - 1, Math.floor((i / width) * palette.length))];
     if (i < whole) out += ansi(`38;5;${col}`)("█");
-    else if (i === whole && frac > 0.08) out += ansi(`38;5;${col}`)(EIGHTHS[Math.max(1, Math.round(frac * 8))]);
+    else if (i === whole && frac > 0.08) out += ansi(`38;5;${col}`)(EIGHTHS[Math.min(7, Math.max(1, Math.round(frac * 8)))]);
     else out += trackDim("█");
   }
   return out;
