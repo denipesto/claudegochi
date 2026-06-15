@@ -115,6 +115,15 @@
   .badge{font-size:10px; font-weight:700; letter-spacing:.06em; padding:2px 7px; border-radius:999px; vertical-align:middle; margin-left:8px}
   .badge.live{background:var(--grn-d); color:var(--grn)}
 
+  /* gallery */
+  .gallery{display:grid; grid-template-columns:repeat(auto-fill, minmax(150px,1fr)); gap:12px}
+  .tile{background:linear-gradient(180deg,#0e1219,#0a0d12); border:1px solid var(--line); border-radius:12px;
+    padding:16px 14px 12px; text-align:center; transition:.15s}
+  .tile:hover{border-color:var(--line2); transform:translateY(-2px)}
+  .tile pre{margin:0 0 10px; font-size:14px; line-height:1.35; white-space:pre}
+  .tile .t-name{font-size:13px; font-weight:600; color:var(--tx)}
+  .tile .t-sub{font-size:11px; color:var(--dim); margin-top:2px}
+
   .group{margin-bottom:18px}
   .group .gh{font-size:13px; color:var(--tx); font-weight:600; margin:0 0 10px; display:flex; align-items:center; gap:8px}
   .group .gh .em{font-size:15px}
@@ -212,6 +221,11 @@
   </section>
 
   <section>
+    <h2>Gallery <span class="mono">// meet claudegochi</span></h2>
+    <div class="gallery" id="gallery"></div>
+  </section>
+
+  <section>
     <h2>Roadmap <span class="mono">// 60+ widgets</span></h2>
     <div class="road-head">
       <div class="road-stat" id="road-stat"></div>
@@ -300,6 +314,30 @@ document.getElementById('n-next').textContent=NEXT.length;
 document.getElementById('n-later').textContent=laterCount;
 document.getElementById('road-stat').innerHTML=`<b>${SHIPPED.length}</b> shipped of ${total}`;
 document.getElementById('road-prog-bar').style.width=(SHIPPED.length/total*100).toFixed(1)+'%';
+
+/* ---------- gallery ---------- */
+const GALLERY=[
+  {spr:[" .---.","( o_o )"," `---'"], c:"#7ace86", n:"egg", s:"Lv.0 · just hatched"},
+  {spr:[" /\\,/\\","(=^_^=)"," > w <"], c:"#7ace86", n:"kitten", s:"Lv.2"},
+  {spr:[" /\\_/\\","( ^_^ )"," > w <"], c:"#7ace86", n:"cat", s:"Lv.4"},
+  {spr:[" /\\_/\\","[ -.- ]"," > w <"], c:"#7ace86", n:"elder", s:"Lv.8 · wise"},
+  {spr:[" /\\_/\\","( o_o )"," > ~ <"], c:"#e0b15c", n:"peckish", s:"ctx 65%"},
+  {spr:[" /\\_/\\","( ;_; )"," > ~ <"], c:"#e0b15c", n:"hungry", s:"ctx 82%"},
+  {spr:[" /\\_/\\","( x_x )"," > ! <"], c:"#f0626c", n:"starving", s:"FEED ME!"},
+  {spr:[" /\\_/\\","( -_- )"," > z <"], c:"#8b95a5", n:"sleepy", s:"night · zZ"},
+  {spr:[" /\\_/\\","( ^‿^ )"," > w <"], c:"#7ace86", n:"ecstatic", s:"purring ♥"},
+  {spr:[" /\\_/\\","( ★_★ )"," > ▽ <"], c:"#7ace86", n:"level up!", s:"+xp"},
+  {spr:[" /\\_/\\","( ^_^ )"," > w <"], c:"#74d0e0", n:"cool theme", s:"palette"},
+  {spr:[" /\\_/\\","( ^_^ )"," > w <"], c:"#cfcfcf", n:"mono theme", s:"palette"},
+];
+const escH=s=>s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+const gRoot=document.getElementById('gallery');
+for(const t of GALLERY){
+  const el=document.createElement('div'); el.className='tile';
+  el.innerHTML=`<pre class="mono" style="color:${t.c}">${t.spr.map(escH).join('\n')}</pre>`
+    +`<div class="t-name">${t.n}</div><div class="t-sub">${t.s}</div>`;
+  gRoot.appendChild(el);
+}
 
 /* ---------- animated claudegochi ---------- */
 const esc=s=>s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
