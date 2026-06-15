@@ -69,8 +69,22 @@ Re-read on every render, no restart needed.
 | `petStyle` | `"sprite"` \| `"compact"` | cat as 3 lines / 1 line |
 | `petName` | string | pet name |
 | `petNameProject` | `true` \| `false` | show the current project's folder name instead of `petName` |
+| `petReactGit` | `true` \| `false` | react to new commits (cheap, throttled git call) |
+| `petAnimate` | `true` \| `false` | ~1fps blink / sleepy animation |
+| `refreshInterval` | integer ≥ 1 | seconds between timer refreshes (the installer writes this into `settings.json` so the animation keeps ticking while idle) |
 | `contextWindow` | `null` \| number | context window (`null` = auto: 200k / 1M for `[1m]`) |
 | `separator` | string | separator between widgets |
+
+## How claudegochi grows
+
+claudegochi is a persistent pet (saved in `~/.cc-statusline-pet.json`, shared across
+all projects):
+
+- **Needs** — hunger tracks your context fill; energy drops over a long session.
+- **Evolution** — earns XP and levels up: 🥚 egg → kitten → cat → elder.
+- **Reactions** — feeding it with `/compact` (a context drop), landing commits, and
+  daily streaks all grant XP and a short happy reaction.
+- **Animation** — blinks and dozes at ~1fps (kept ticking by `refreshInterval`).
 
 ## Languages
 

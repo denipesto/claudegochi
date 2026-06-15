@@ -115,7 +115,9 @@ async function run() {
     ["locating config…", () => {}],
     ["backing up settings…", () => { if (fs.existsSync(settingsPath)) { bak = settingsPath + ".bak"; fs.copyFileSync(settingsPath, bak); } }],
     ["writing status line…", () => {
-      settings.statusLine = { type: "command", command: `"${nodePath}" "${scriptPath}"`, padding: 0 };
+      const cfg = loadJson(configPath, {});
+      const ri = Number.isInteger(cfg.refreshInterval) && cfg.refreshInterval >= 1 ? cfg.refreshInterval : 2;
+      settings.statusLine = { type: "command", command: `"${nodePath}" "${scriptPath}"`, padding: 0, refreshInterval: ri };
       saveJson(settingsPath, settings);
     }],
     ["applying preferences…", () => {

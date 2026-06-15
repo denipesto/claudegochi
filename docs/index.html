@@ -268,8 +268,8 @@ bindCopy(ircopy, ()=>CMDS[curCmd].rm, t=>ircopy.textContent=t);
 showCmd(0);
 
 /* ---------- roadmap ---------- */
-const SHIPPED=["Context remaining","Tamagotchi mode","Emotions","Animation","i18n (en/ru)","One-line installer"];
-const NEXT=["Git + last commit age","Cost + burn rate","typecheck / tests status","Session timer + break","Commit streak"];
+const SHIPPED=["Context remaining","Tamagotchi mode","Emotions","Animation","Evolution & levels","Needs (hunger/energy)","React to commits","Daily streak","i18n (en/ru)","One-line installer","Project name"];
+const NEXT=["Git branch + commit age","Cost + burn rate","typecheck / tests status","Session timer + break","Cache hit ratio"];
 const LATER=[
   ["🧠","Context & session",["ETA to /compact","Context growth rate","Top context hog","Cache hit ratio","Message / turn count","Idle detector","Model fallback"]],
   ["💸","Budget",["Projected total","Daily spend cap","Cost per line","vs average session"]],
@@ -279,7 +279,7 @@ const LATER=[
   ["🖥","System",["Node vs .nvmrc","Dev server up","Free disk","Battery","Docker","Package manager"]],
   ["🌐","External",["Branch CI","PRs to review","Issues on me","Deploy (Vercel)","Sentry error rate","Next meeting","Slack mentions","Weather"]],
   ["◆","Claude Code",["Mode / model","MCP servers","Plan mode","Background tasks","Sub-agents","What it's doing now"]],
-  ["🐱","claudegochi",["Evolution stages","React to commits","Spinner animation"]],
+  ["🐱","claudegochi",["Spinner animation","Care minigames","Accessories / skins","Sound (bell on level-up)"]],
 ];
 const chip=(label,cls)=>{ const s=document.createElement('span'); s.className='chip'+(cls?' '+cls:''); s.textContent=label; return s; };
 

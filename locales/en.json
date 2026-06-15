@@ -1,11 +1,19 @@
 {
   "name": "English",
   "tamagotchi": {
-    "starving": "FEED ME! /compact",
-    "hungry": "tummy rumbling…",
-    "sleepy": "late… nap time? zZ",
+    "ecstatic": "purring ♥",
     "content": "full & happy",
-    "ok": "feeling good"
+    "ok": "feeling good",
+    "peckish": "getting peckish…",
+    "hungry": "tummy rumbling…",
+    "starving": "FEED ME! /compact",
+    "tired": "getting sleepy…",
+    "sleepy": "late… nap time? zZ",
+    "fed": "nom nom! +{xp}xp",
+    "commit": "nice commit! +{xp}xp",
+    "levelup": "level up! → Lv.{lvl}",
+    "newday": "good to see you!",
+    "stage": { "egg": "egg", "kitten": "kitten", "cat": "cat", "elder": "elder" }
   },
   "context": {
     "left": "left"

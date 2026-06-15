@@ -5,6 +5,9 @@
   "separator": " │ ",
   "contextWindow": null,
   "petName": "claudegochi",
-  "petNameProject": false,
-  "petStyle": "sprite"
+  "petNameProject": true,
+  "petStyle": "sprite",
+  "petReactGit": true,
+  "petAnimate": true,
+  "refreshInterval": 2
 }

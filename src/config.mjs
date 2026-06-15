@@ -20,6 +20,13 @@ export const defaultConfig = {
   petName: "claudegochi",
   // show the current project's folder name instead of petName
   petNameProject: false,
+  // react to git commits (cheap, throttled); set false to disable git calls
+  petReactGit: true,
+  // ~1fps blink / sleepy animation (needs refreshInterval to tick while idle)
+  petAnimate: true,
+  // seconds between timer refreshes of the status line (installer writes this
+  // into settings.json so the animation keeps ticking when the session is idle)
+  refreshInterval: 2,
 };
 
 export function loadConfig() {
