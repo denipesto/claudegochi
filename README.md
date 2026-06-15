@@ -58,27 +58,34 @@ node bin/install.mjs --uninstall         # remove statusLine from settings.json
 
 (`npm run remove` = `--uninstall`.)
 
-## Configure interactively
+## Configure
 
-**Instant menu, no tokens** — run the editor directly in your terminal (in Claude
-Code, prefix with `!`). Arrow keys + Enter, drills into each setting:
-
-```
-!node ~/.cc-statusline/bin/cc-config.mjs
-```
-
-It's a local TUI — no LLM, no latency, no token cost.
-
-**From chat** — the installer also registers a thin `/claudegochi` slash command
-for quick one-off changes (this one does use the model):
+**`ccg` — instant, zero tokens.** The installer adds a `UserPromptSubmit` hook, so
+typing a line that starts with `ccg` runs locally and never reaches the model:
 
 ```
-/claudegochi theme cool   # palette: warm | cool | mono
-/claudegochi mode normal  # plain context bar (no pet)
-/claudegochi show         # print current settings
+ccg                    # show current settings
+ccg theme cool         # palette: warm | cool | mono
+ccg mode normal        # plain context bar (no pet)
+ccg name Murka         # rename the pet
 ```
 
-(The slash command appears after you restart Claude Code.)
+No latency, no token cost — it's intercepted and run on your machine.
+
+**Interactive arrow-key menu** — a local TUI (no LLM). Run it in a **real terminal**
+(not inside Claude Code's chat, where `!` has no interactive TTY):
+
+```
+node bin/cc-config.mjs
+```
+
+**`/claudegochi`** — a slash command for the same `show`/set, if you prefer it.
+Note: slash commands always invoke the model (a small token cost); `ccg` does not.
+
+> Why not an arrow-key menu *inside* Claude Code? Custom slash commands always call
+> the model, the `!` prefix runs non-interactively (no PTY), and hooks/keybindings
+> can't draw a UI. So: `ccg` for instant no-token edits in chat, or the TUI in a
+> real terminal for arrow-key navigation.
 
 ## Configure — `config.json`
 

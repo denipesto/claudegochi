@@ -72,7 +72,23 @@ const nodePath = process.execPath.replace(/\\/g, "/");
 const settingsPath = path.join(os.homedir(), ".claude", "settings.json");
 const configPath = path.join(repoRoot, "config.json");
 const configCli = path.join(repoRoot, "bin", "cc-config.mjs").replace(/\\/g, "/");
+const hookCli = path.join(repoRoot, "bin", "cc-hook.mjs").replace(/\\/g, "/");
+const hookCmd = `"${nodePath}" "${hookCli}"`;
 const commandPath = path.join(os.homedir(), ".claude", "commands", "claudegochi.md");
+
+// add/refresh our UserPromptSubmit hook in `settings` (idempotent)
+function setHook(settings) {
+  settings.hooks = settings.hooks || {};
+  const list = (settings.hooks.UserPromptSubmit || []).filter((g) => !JSON.stringify(g).includes("cc-hook.mjs"));
+  list.push({ hooks: [{ type: "command", command: hookCmd }] });
+  settings.hooks.UserPromptSubmit = list;
+}
+function removeHook(settings) {
+  if (!settings.hooks?.UserPromptSubmit) return;
+  settings.hooks.UserPromptSubmit = settings.hooks.UserPromptSubmit.filter((g) => !JSON.stringify(g).includes("cc-hook.mjs"));
+  if (!settings.hooks.UserPromptSubmit.length) delete settings.hooks.UserPromptSubmit;
+  if (settings.hooks && !Object.keys(settings.hooks).length) delete settings.hooks;
+}
 const short = (p) => p.replace(os.homedir(), "~").replace(/\\/g, "/");
 
 const slashCommand = `---
@@ -112,6 +128,7 @@ async function run() {
   if (uninstall) {
     if (fs.existsSync(settingsPath)) { bak = settingsPath + ".bak"; fs.copyFileSync(settingsPath, bak); }
     delete settings.statusLine;
+    removeHook(settings);
     saveJson(settingsPath, settings);
     try { fs.rmSync(commandPath); } catch {}
     console.log(box([
@@ -147,6 +164,10 @@ async function run() {
       fs.mkdirSync(path.dirname(commandPath), { recursive: true });
       fs.writeFileSync(commandPath, slashCommand + "\n");
     }],
+    ["installing ccg hook (no-token config)…", () => {
+      setHook(settings);
+      saveJson(settingsPath, settings);
+    }],
     ["verifying…", () => {
       const v = loadJson(settingsPath, {});
       if (!v.statusLine) throw new Error("verification failed: statusLine missing after write");
@@ -176,8 +197,8 @@ async function run() {
   ].filter(Boolean)));
   console.log("");
   console.log("  " + grn("→") + " " + bold("Restart Claude Code") + dim(" (close & reopen the terminal) to apply."));
-  console.log("  " + dim("settings menu (instant, no tokens):  ") + cyan(`!node "${configCli}"`));
-  console.log("  " + dim("or from chat:  ") + cyan("/claudegochi theme cool"));
+  console.log("  " + dim("change settings, no tokens — just type:  ") + cyan("ccg theme cool"));
+  console.log("  " + dim("interactive menu (in a real terminal):   ") + cyan(`node "${configCli}"`));
   const removeCmd = process.platform === "win32"
     ? "irm https://raw.githubusercontent.com/denipesto/cc-statusline/main/uninstall.ps1 | iex"
     : "curl -fsSL https://raw.githubusercontent.com/denipesto/cc-statusline/main/uninstall.sh | sh";
