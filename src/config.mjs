@@ -18,8 +18,12 @@ export const defaultConfig = {
   contextWindow: null,
   // tamagotchi mode: pet name
   petName: "claudegochi",
+  // pet character: cat | dog | bunny | bear | fox | frog | robot | dragon | panda | penguin
+  petChar: "cat",
   // color theme: "warm" | "cool" | "mono"
   petTheme: "warm",
+  // vocab widget: seconds between phrases
+  vocabEvery: 60,
   // show the current project's folder name instead of petName
   petNameProject: false,
   // react to git commits (cheap, throttled); set false to disable git calls

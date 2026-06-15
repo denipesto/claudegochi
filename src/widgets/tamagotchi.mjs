@@ -9,6 +9,7 @@
 import { gray, bold, dim, c256, THEMES, gradientBar, fmtTokens } from "../colors.mjs";
 import { contextState } from "../tokens.mjs";
 import { tick } from "../pet.mjs";
+import { CHARS, EGG } from "../chars.mjs";
 
 const toneOf = (r) => (r >= 0.85 ? "danger" : r >= 0.6 ? "warn" : "good");
 
@@ -21,14 +22,11 @@ function petName(data, config) {
   return config?.petName || "claudegochi";
 }
 
-// 3-line sprite per evolution stage; eyes (3 chars) + mouth (1) come from mood.
-function sprite(stage, eyes, mouth) {
-  switch (stage) {
-    case "egg":    return [" .---.", `( ${eyes} )`, " `---'"];
-    case "kitten": return [" /\\,/\\", `(=${eyes}=)`, ` > ${mouth} <`];
-    case "elder":  return [" /\\_/\\", `[ ${eyes} ]`, ` > ${mouth} <`];
-    default:       return [" /\\_/\\", `( ${eyes} )`, ` > ${mouth} <`]; // cat
-  }
+// 3-line sprite: egg (Lv.0) is universal, then the chosen character (petChar).
+// eyes (3 chars) + mouth (1) come from the mood.
+function sprite(stage, char, eyes, mouth) {
+  if (stage === "egg") return EGG(eyes);
+  return (CHARS[char] || CHARS.cat)(eyes, mouth);
 }
 
 // pick mood: flash reactions > hunger > tiredness/night > happiness
@@ -101,7 +99,8 @@ export default {
     if (animate && drowsy) say += " " + ["z", "Z", "ᶻ"][frame % 3];
 
     const name = petName(data, cfg);
-    const stageWord = tr(`stage.${pet.stage}`);
+    const char = CHARS[cfg.petChar] ? cfg.petChar : "cat";
+    const stageWord = pet.stage === "egg" ? tr("stage.egg") : (pet.stage === "elder" ? "elder " : "") + char;
     const pct = Math.round(ratio * 100);
     const ctxBar = gradientBar(ratio, 10, theme.grad);
     const pctTxt = paintTone(toneOf(ratio))(`${pct}%`);
@@ -115,7 +114,7 @@ export default {
     }
 
     // 3-line sprite: who · context · mood
-    const [l0, l1, l2] = sprite(pet.stage, eyes, m.mouth);
+    const [l0, l1, l2] = sprite(pet.stage, char, eyes, m.mouth);
     const w = Math.max(l0.length, l1.length, l2.length);
     const cat = [l0, l1, l2].map((l) => paint(l.padEnd(w)));
 

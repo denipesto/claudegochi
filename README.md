@@ -99,12 +99,14 @@ Any keys you set are merged over the defaults, so a partial file is fine.
 | `widgets` | `["context", ...]` | which widgets and order (normal mode) — see below |
 | `petStyle` | `"sprite"` \| `"compact"` | cat as 3 lines / 1 line |
 | `petName` | string | pet name |
+| `petChar` | `cat` \| `dog` \| `bunny` \| `bear` \| `fox` \| `frog` \| `robot` \| `dragon` \| `panda` \| `penguin` | which creature your pet is |
 | `petTheme` | `"warm"` \| `"cool"` \| `"mono"` | color palette (bar + mood) |
 | `petNameProject` | `true` \| `false` | show the current project's folder name instead of `petName` |
 | `petReactGit` | `true` \| `false` | react to new commits (cheap, throttled git call) |
 | `petAnimate` | `true` \| `false` | ~1fps blink / sleepy animation |
 | `petInspire` | `true` \| `false` | rotate an inspiring line (goal / quote / progress / cheer) when in a good mood |
 | `goal` | string \| `null` | your goal of the day, shown as a north-star (`ccg goal finish the auth flow`, clear with `ccg goal none`) |
+| `vocabEvery` | integer ≥ 1 | seconds between `vocab` phrases (default 60) |
 | `refreshInterval` | integer ≥ 1 | seconds between timer refreshes (the installer writes this into `settings.json` so the animation keeps ticking while idle) |
 | `contextWindow` | `null` \| number | context window (`null` = auto: 200k / 1M for `[1m]`) |
 | `separator` | string | separator between widgets |
@@ -128,7 +130,7 @@ In `"mode": "normal"` the `widgets` list is rendered in order, joined by `separa
 |---|---|
 | `context` | context bar + `%` + tokens left |
 | `quote` | a short craft/building quote of the day |
-| `vocab` | meeting/standup English — word + IPA + RU, rotates ~1/min (~1200 phrases in `src/data/vocab.json`) |
+| `vocab` | meeting/standup English — word + IPA + RU (~1200 phrases in `src/data/vocab.json`); rotation set by `vocabEvery` |
 | `tamagotchi` | the pet (also the whole of `tamagotchi` mode) |
 
 ```json

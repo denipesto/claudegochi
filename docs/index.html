@@ -221,7 +221,7 @@
   </section>
 
   <section>
-    <h2>Gallery <span class="mono">// meet claudegochi</span></h2>
+    <h2>Characters <span class="mono">// hover to hatch · pick with <code>ccg char</code></span></h2>
     <div class="gallery" id="gallery"></div>
   </section>
 
@@ -315,28 +315,39 @@ document.getElementById('n-later').textContent=laterCount;
 document.getElementById('road-stat').innerHTML=`<b>${SHIPPED.length}</b> shipped of ${total}`;
 document.getElementById('road-prog-bar').style.width=(SHIPPED.length/total*100).toFixed(1)+'%';
 
-/* ---------- gallery ---------- */
-const GALLERY=[
-  {spr:[" .---.","( o_o )"," `---'"], c:"#7ace86", n:"egg", s:"Lv.0 · just hatched"},
-  {spr:[" /\\,/\\","(=^_^=)"," > w <"], c:"#7ace86", n:"kitten", s:"Lv.2"},
-  {spr:[" /\\_/\\","( ^_^ )"," > w <"], c:"#7ace86", n:"cat", s:"Lv.4"},
-  {spr:[" /\\_/\\","[ -.- ]"," > w <"], c:"#7ace86", n:"elder", s:"Lv.8 · wise"},
-  {spr:[" /\\_/\\","( o_o )"," > ~ <"], c:"#e0b15c", n:"peckish", s:"ctx 65%"},
-  {spr:[" /\\_/\\","( ;_; )"," > ~ <"], c:"#e0b15c", n:"hungry", s:"ctx 82%"},
-  {spr:[" /\\_/\\","( x_x )"," > ! <"], c:"#f0626c", n:"starving", s:"FEED ME!"},
-  {spr:[" /\\_/\\","( -_- )"," > z <"], c:"#8b95a5", n:"sleepy", s:"night · zZ"},
-  {spr:[" /\\_/\\","( ^‿^ )"," > w <"], c:"#7ace86", n:"ecstatic", s:"purring ♥"},
-  {spr:[" /\\_/\\","( ★_★ )"," > ▽ <"], c:"#7ace86", n:"level up!", s:"+xp"},
-  {spr:[" /\\_/\\","( ^_^ )"," > w <"], c:"#74d0e0", n:"cool theme", s:"palette"},
-  {spr:[" /\\_/\\","( ^_^ )"," > w <"], c:"#cfcfcf", n:"mono theme", s:"palette"},
+/* ---------- character gallery (hover = hatch animation) ---------- */
+const PETS=[
+  {n:"cat",     c:"#7ace86", spr:[" /\\_/\\","( ^_^ )"," > w <"]},
+  {n:"dog",     c:"#e0b15c", spr:[" /\\__/\\","( ^_^ )"," (_w_)"]},
+  {n:"bunny",   c:"#d7d7d7", spr:["  (\\_/)"," ( ^_^ )"," (\")_(\")"]},
+  {n:"bear",    c:"#c99a6a", spr:[" (o)_(o)","( ^_^ )","  \\w/"]},
+  {n:"fox",     c:"#e08a4a", spr:[" |\\__/|","( ^_^ )"," \\>w</"]},
+  {n:"frog",    c:"#8fce5a", spr:["  _____","(o ^_^ o)","  \\_w_/"]},
+  {n:"robot",   c:"#74d0e0", spr:[" ,[___],","{ ^_^ }"," |o-w-o|"]},
+  {n:"dragon",  c:"#b06ef0", spr:[" /=\\_/=\\","( ^_^ )"," ~>w<~"]},
+  {n:"panda",   c:"#cfcfcf", spr:[" (q)_(p)","( ^_^ )","  \\w/"]},
+  {n:"penguin", c:"#9bb6cf", spr:["   __","<( ^_^ )>","  /^w^\\"]},
 ];
-const escH=s=>s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+const EGG=[" .---.","( o_o )"," `---'"], CRACK=[" .-v-.","( -_- )"," '-^-'"];
 const gRoot=document.getElementById('gallery');
-for(const t of GALLERY){
+for(const p of PETS){
   const el=document.createElement('div'); el.className='tile';
-  el.innerHTML=`<pre class="mono" style="color:${t.c}">${t.spr.map(escH).join('\n')}</pre>`
-    +`<div class="t-name">${t.n}</div><div class="t-sub">${t.s}</div>`;
-  gRoot.appendChild(el);
+  const pre=document.createElement('pre'); pre.className='mono';
+  pre.style.color=p.c; pre.textContent=p.spr.join('\n');
+  const nm=document.createElement('div'); nm.className='t-name'; nm.textContent=p.n;
+  const sub=document.createElement('div'); sub.className='t-sub'; sub.textContent="hover to hatch";
+  el.append(pre,nm,sub); gRoot.appendChild(el);
+
+  const settle=()=>{ clearTimeout(el._to); pre.textContent=p.spr.join('\n'); pre.style.color=p.c; };
+  el.addEventListener('mouseenter',()=>{
+    clearTimeout(el._to);
+    const frames=[{t:EGG,c:"#5d6675"},{t:CRACK,c:"#7a8290"},{t:p.spr,c:p.c}];
+    let i=0;
+    const step=()=>{ const f=frames[i]; pre.textContent=f.t.join('\n'); pre.style.color=f.c;
+      if(++i<frames.length) el._to=setTimeout(step,280); };
+    step();
+  });
+  el.addEventListener('mouseleave',settle);
 }
 
 /* ---------- animated claudegochi ---------- */

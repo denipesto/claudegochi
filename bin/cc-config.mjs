@@ -13,11 +13,12 @@ import fs from "node:fs";
 import path from "node:path";
 import readline from "node:readline";
 import { fileURLToPath } from "node:url";
+import { CHAR_NAMES } from "../src/chars.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const configPath = path.join(root, "config.json");
 
-const ALIAS = { theme: "petTheme", style: "petStyle", name: "petName", project: "petNameProject", animate: "petAnimate", git: "petReactGit" };
+const ALIAS = { theme: "petTheme", style: "petStyle", name: "petName", project: "petNameProject", animate: "petAnimate", git: "petReactGit", char: "petChar" };
 
 const ENUM = (...vals) => (v) => (vals.includes(v) ? { value: v } : { error: `expected one of: ${vals.join(", ")}` });
 const BOOL = (v) => (["true", "false", "on", "off", "1", "0"].includes(String(v).toLowerCase())
@@ -34,10 +35,12 @@ const LANGS = detectLocales();
 
 const KEYS = {
   mode: ENUM("normal", "tamagotchi"),
+  petChar: ENUM(...CHAR_NAMES),
   petTheme: ENUM("warm", "cool", "mono"),
   petStyle: ENUM("sprite", "compact"),
   petName: STR,
   petNameProject: BOOL,
+  vocabEvery: INT1,
   lang: LANGS.length ? ENUM(...LANGS) : STR,
   petReactGit: BOOL,
   petAnimate: BOOL,
@@ -47,6 +50,7 @@ const KEYS = {
 // fixed options for the TUI (null = free text input via the key's validator)
 const OPTS = {
   mode: ["normal", "tamagotchi"],
+  petChar: CHAR_NAMES,
   petTheme: ["warm", "cool", "mono"],
   petStyle: ["sprite", "compact"],
   petNameProject: [true, false],
@@ -54,10 +58,11 @@ const OPTS = {
   petReactGit: [true, false],
   petAnimate: [true, false],
   petName: null,
+  vocabEvery: null,
   contextWindow: null,
   refreshInterval: null,
 };
-const ORDER = ["mode", "petTheme", "petStyle", "petName", "petNameProject", "lang", "petReactGit", "petAnimate", "contextWindow", "refreshInterval"];
+const ORDER = ["mode", "petChar", "petTheme", "petStyle", "petName", "petNameProject", "lang", "petReactGit", "petAnimate", "vocabEvery", "contextWindow", "refreshInterval"];
 
 function load() {
   try { return JSON.parse(fs.readFileSync(configPath, "utf8").replace(/^﻿/, "")); }

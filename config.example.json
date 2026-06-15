@@ -5,10 +5,12 @@
   "separator": " │ ",
   "contextWindow": null,
   "petName": "claudegochi",
+  "petChar": "cat",
   "petNameProject": false,
   "petStyle": "sprite",
   "petTheme": "warm",
   "petReactGit": true,
   "petAnimate": true,
+  "vocabEvery": 60,
   "refreshInterval": 2
 }
