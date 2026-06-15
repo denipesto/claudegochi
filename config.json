@@ -7,6 +7,7 @@
   "petName": "claudegochi",
   "petNameProject": true,
   "petStyle": "sprite",
+  "petTheme": "warm",
   "petReactGit": true,
   "petAnimate": true,
   "refreshInterval": 2

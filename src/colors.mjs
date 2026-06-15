@@ -42,23 +42,28 @@ export function solidBar(fill, width, paintFn) {
   return paintFn("█".repeat(f)) + trackDim("█".repeat(Math.max(width - f, 0)));
 }
 
-// Softer designed 256-color palette (less neon than ANSI brights)
-export const sGreen = ansi("38;5;114");
-export const sAmber = ansi("38;5;179");
-export const sRed = ansi("38;5;203");
+// color by 256-code number
+export const c256 = (n) => ansi(`38;5;${n}`);
 
-// Gradient bar: filled cells shade green→amber→red along the length, with a
-// sub-cell partial last block; empty cells are a dim dark track.
-const GRAD = [78, 114, 149, 179, 215, 209, 203];
+// Palette themes: low (ok) / mid (warn) / high (danger) tones + a 7-stop
+// gradient for the context bar. Switch via config.petTheme.
+export const THEMES = {
+  warm: { low: 114, mid: 179, high: 203, grad: [78, 114, 149, 179, 215, 209, 203] },
+  cool: { low: 80, mid: 75, high: 170, grad: [37, 44, 80, 75, 69, 104, 170] },
+  mono: { low: 250, mid: 245, high: 231, grad: [238, 241, 244, 247, 250, 252, 255] },
+};
+
+// Gradient bar: filled cells shade along `palette` (low→high), with a sub-cell
+// partial last block; empty cells are a dim dark track.
 const EIGHTHS = ["", "▏", "▎", "▍", "▌", "▋", "▊", "▉"];
-export function gradientBar(fill, width = 10) {
+export function gradientBar(fill, width = 10, palette = THEMES.warm.grad) {
   const r = Math.max(0, Math.min(fill, 1));
   const full = r * width;
   const whole = Math.floor(full);
   const frac = full - whole;
   let out = "";
   for (let i = 0; i < width; i++) {
-    const col = GRAD[Math.min(GRAD.length - 1, Math.floor((i / width) * GRAD.length))];
+    const col = palette[Math.min(palette.length - 1, Math.floor((i / width) * palette.length))];
     if (i < whole) out += ansi(`38;5;${col}`)("█");
     else if (i === whole && frac > 0.08) out += ansi(`38;5;${col}`)(EIGHTHS[Math.max(1, Math.round(frac * 8))]);
     else out += trackDim("█");

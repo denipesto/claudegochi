@@ -68,6 +68,7 @@ Re-read on every render, no restart needed.
 | `widgets` | `["context", ...]` | which widgets and order (normal mode) |
 | `petStyle` | `"sprite"` \| `"compact"` | cat as 3 lines / 1 line |
 | `petName` | string | pet name |
+| `petTheme` | `"warm"` \| `"cool"` \| `"mono"` | color palette (bar + mood) |
 | `petNameProject` | `true` \| `false` | show the current project's folder name instead of `petName` |
 | `petReactGit` | `true` \| `false` | react to new commits (cheap, throttled git call) |
 | `petAnimate` | `true` \| `false` | ~1fps blink / sleepy animation |
