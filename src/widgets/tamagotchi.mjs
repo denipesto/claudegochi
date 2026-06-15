@@ -6,9 +6,9 @@
 // config.json: { "mode":"tamagotchi", "petName":"claudegochi", "petStyle":"sprite",
 //                "petNameProject":false, "petReactGit":true }
 
-import { red, gray, bold, dim, brightGreen, brightYellow, brightRed, cyan, meter, bar, fmtTokens } from "../colors.mjs";
+import { gray, bold, dim, brightGreen, brightYellow, brightRed, solidBar, fmtTokens } from "../colors.mjs";
 import { contextState } from "../tokens.mjs";
-import { tick, xpForLevel } from "../pet.mjs";
+import { tick } from "../pet.mjs";
 
 const colorFor = (r) => (r >= 0.85 ? brightRed : r >= 0.6 ? brightYellow : brightGreen);
 
@@ -99,7 +99,7 @@ export default {
     const name = petName(data, cfg);
     const stageWord = tr(`stage.${pet.stage}`);
     const pct = Math.round(ratio * 100);
-    const ctxBar = colorFor(ratio)(bar(ratio, 8));
+    const ctxBar = solidBar(ratio, 8, colorFor(ratio));
     const pctTxt = colorFor(ratio)(`${pct}%`);
 
     // compact one-liner: face · name · level · context% · mood
@@ -115,12 +115,10 @@ export default {
     const w = Math.max(l0.length, l1.length, l2.length);
     const cat = [l0, l1, l2].map((l) => paint(l.padEnd(w)));
 
-    const xpPct = Math.round((pet.xpInto / pet.xpNeed) * 100);
-    const evo = dim(`Lv.${pet.level} ${stageWord} `) + cyan(meter(pet.xpInto / pet.xpNeed, 4)) + dim(` ${xpPct}%`);
     const streak = pet.streak > 1 ? "  " + brightRed(`🔥${pet.streak}`) : "";
 
     return [
-      `${cat[0]}   ${bold(name)}   ${evo}${streak}`,
+      `${cat[0]}   ${bold(name)}   ${dim(`Lv.${pet.level} ${stageWord}`)}${streak}`,
       `${cat[1]}   ${dim("ctx")} ${ctxBar} ${pctTxt}  ${dim("· " + fmtTokens(s.left) + " left")}`,
       `${cat[2]}   ${paint(say)}`,
     ].join("\n");

@@ -33,6 +33,15 @@ export function meter(fill, width = 8) {
   return "█".repeat(filled) + "░".repeat(Math.max(width - filled, 0));
 }
 
+// Clean solid bar: filled cells via paintFn, empty cells as a dim dark track
+// (no ░ hatch). e.g. solidBar(0.4, 8, green) -> green ███ + dark █████
+const trackDim = ansi("38;5;237");
+export function solidBar(fill, width, paintFn) {
+  const r = Math.max(0, Math.min(fill, 1));
+  const f = Math.round(r * width);
+  return paintFn("█".repeat(f)) + trackDim("█".repeat(Math.max(width - f, 0)));
+}
+
 // Compact token formatting: 940 → "940", 72000 → "72k", 1240000 → "1.2M"
 export function fmtTokens(n) {
   if (n >= 1_000_000) return (n / 1_000_000).toFixed(1).replace(/\.0$/, "") + "M";
